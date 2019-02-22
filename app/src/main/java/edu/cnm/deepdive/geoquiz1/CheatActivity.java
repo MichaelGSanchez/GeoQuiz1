@@ -1,12 +1,19 @@
 package edu.cnm.deepdive.geoquiz1;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.style.TtsSpan.TextBuilder;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewAnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -44,13 +51,32 @@ public class CheatActivity extends AppCompatActivity {
     mShowAnswerButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View view) {
-        if (mAnswerIsTrue){
+        if (mAnswerIsTrue) {
           mAnswerTextView.setText(R.string.true_button);
-        }else{
+        } else {
           mAnswerTextView.setText(R.string.false_button);
         }
 
         setAnswerShownResult(true);
+
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+
+          int cx = mShowAnswerButton.getWidth() / 2;
+          int cy = mShowAnswerButton.getHeight() / 2;
+          float radius = mShowAnswerButton.getWidth();
+          Animator anim = ViewAnimationUtils
+              .createCircularReveal(mShowAnswerButton, cx, cy, radius, 0);
+          anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+              super.onAnimationEnd(animation);
+              mShowAnswerButton.setVisibility(View.INVISIBLE);
+            }
+          });
+          anim.start();
+        } else {
+          mShowAnswerButton.setVisibility(View.INVISIBLE);
+        }
       }
     });
  }

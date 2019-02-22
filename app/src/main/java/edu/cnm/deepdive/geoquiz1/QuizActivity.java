@@ -154,7 +154,7 @@ public class QuizActivity extends AppCompatActivity {
 
     int messageResId = 0;
 
-    if (mIsCheater) { 
+    if (mIsCheater) {
       messageResId = R.string.judgment_toast;
     } else {
       if (userPressedTrue == answerIsTrue) {
@@ -162,9 +162,9 @@ public class QuizActivity extends AppCompatActivity {
       } else {
         messageResId = R.string.incorrect_toast;
       }
-      Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
-          .show();
-    }
 
+    }
+    Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
+        .show();
   }
 }
